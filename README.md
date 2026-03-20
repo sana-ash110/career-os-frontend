@@ -1,6 +1,5 @@
 # CareerOS — Personal AI/ML Career Tracking System
 
-![CareerOS Dashboard](https://via.placeholder.com/800x400/0a0a0a/6EE7B7?text=CareerOS+Dashboard)
 
 > A full-stack productivity app built to track a 56-week journey to a 7-figure AI/ML + Cloud engineering career.
 
