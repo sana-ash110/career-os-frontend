@@ -839,7 +839,7 @@ Roadmap phases: Foundation (Python, DSA, SQL) → AI/ML + Cloud → Projects →
 Be direct, specific, and motivating but not cringe. Give concrete next actions. Think like a senior engineer who went from $60K to $400K. Keep responses under 150 words unless the question demands more depth.`;
 
     try {
-      const res = await fetch("http://localhost:5000/chat", {
+      const res = await fetch("https://career-os-backend-production-1a36.up.railway.app/chat", {
         method: "POST",
         headers: { 
   "Content-Type": "application/json",
