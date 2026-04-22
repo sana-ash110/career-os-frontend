@@ -167,39 +167,192 @@ const PROJECTS = [
   { id: "p4", title: "Multi-Modal AI Content Platform", stack: ["OpenAI API", "Stable Diffusion", "Next.js", "PostgreSQL", "Stripe"], why: "Shows full-stack AI product thinking. Investors & startups love founders who can ship. $500K+ equity upside.", steps: { planning: ["Define user flows", "API cost modeling", "DB schema design"], dev: ["Integrate GPT-4 + DALL-E APIs", "Build subscription system with Stripe", "Create gallery + editor UI"], deploy: ["Vercel + Neon DB", "Set up usage limits per tier", "Add analytics with PostHog"] }, phase: "projects" },
 ];
 
-const DAILY_TASKS_BY_PHASE = {
+// Weekly rotating tasks — each phase has 4 weeks of tasks that cycle automatically
+const WEEKLY_TASKS = {
   foundation: [
-    { id: "d1", title: "Solve 2 LeetCode Array/String problems", duration: 45, tag: "DSA", xp: 30 },
-    { id: "d2", title: "Read 1 chapter of Automate the Boring Stuff", duration: 30, tag: "Python", xp: 20 },
-    { id: "d3", title: "Write 20 lines of Python (any project)", duration: 20, tag: "Python", xp: 15 },
-    { id: "d4", title: "Practice 5 SQL queries on SQLZoo", duration: 25, tag: "SQL", xp: 20 },
-    { id: "d5", title: "Git: commit to a project with semantic message", duration: 10, tag: "Git", xp: 10 },
+    // Week 1: Arrays & Python basics
+    [
+      { id: "w1d1", title: "Solve 2 LeetCode Array problems (Two Sum, Best Time to Buy)", duration: 45, tag: "DSA", xp: 30 },
+      { id: "w1d2", title: "Read Python basics: Variables, Types, Functions", duration: 30, tag: "Python", xp: 20 },
+      { id: "w1d3", title: "Write a Python CLI calculator", duration: 25, tag: "Python", xp: 20 },
+      { id: "w1d4", title: "Practice SELECT, WHERE, GROUP BY on SQLZoo", duration: 25, tag: "SQL", xp: 20 },
+      { id: "w1d5", title: "Git: init a repo, make 3 commits with semantic messages", duration: 15, tag: "Git", xp: 10 },
+    ],
+    // Week 2: Strings & OOP
+    [
+      { id: "w2d1", title: "Solve 2 LeetCode String problems (Valid Anagram, Reverse String)", duration: 45, tag: "DSA", xp: 30 },
+      { id: "w2d2", title: "Study Python OOP: Classes, Inheritance, __init__", duration: 35, tag: "Python", xp: 25 },
+      { id: "w2d3", title: "Build a Python class: BankAccount with deposit/withdraw", duration: 30, tag: "Python", xp: 20 },
+      { id: "w2d4", title: "Practice JOINs (INNER, LEFT, RIGHT) on SQLZoo", duration: 25, tag: "SQL", xp: 20 },
+      { id: "w2d5", title: "Git: create a branch, make changes, merge back to main", duration: 15, tag: "Git", xp: 10 },
+    ],
+    // Week 3: Linked Lists & Hashing
+    [
+      { id: "w3d1", title: "Solve 2 LeetCode Hashing problems (Group Anagrams, Top K)", duration: 50, tag: "DSA", xp: 35 },
+      { id: "w3d2", title: "Study Python: Decorators, Generators, List Comprehensions", duration: 35, tag: "Python", xp: 25 },
+      { id: "w3d3", title: "Implement a Linked List from scratch in Python", duration: 40, tag: "DSA", xp: 30 },
+      { id: "w3d4", title: "Practice Subqueries & CTEs on Mode Analytics", duration: 30, tag: "SQL", xp: 25 },
+      { id: "w3d5", title: "Linux: navigate file system, practice 10 bash commands", duration: 20, tag: "Linux", xp: 15 },
+    ],
+    // Week 4: Trees & Advanced Python
+    [
+      { id: "w4d1", title: "Solve 2 LeetCode Tree problems (Max Depth, Invert Tree)", duration: 50, tag: "DSA", xp: 35 },
+      { id: "w4d2", title: "Study Python: File I/O, Exception handling, Virtual Envs", duration: 30, tag: "Python", xp: 20 },
+      { id: "w4d3", title: "Build a web scraper with requests + BeautifulSoup", duration: 45, tag: "Python", xp: 35 },
+      { id: "w4d4", title: "Design a 3-table SQL schema and write 5 queries on it", duration: 35, tag: "SQL", xp: 30 },
+      { id: "w4d5", title: "Git: open a PR, write a description, simulate code review", duration: 15, tag: "Git", xp: 10 },
+    ],
+    // Week 5: Graphs & Algorithms
+    [
+      { id: "w5d1", title: "Solve 2 LeetCode Graph problems (Number of Islands, Clone Graph)", duration: 55, tag: "DSA", xp: 40 },
+      { id: "w5d2", title: "Implement BFS and DFS from scratch in Python", duration: 40, tag: "DSA", xp: 30 },
+      { id: "w5d3", title: "Write 3 sorting algorithms: Bubble, Merge, Quick Sort", duration: 40, tag: "Python", xp: 30 },
+      { id: "w5d4", title: "Practice SQL: Indexes and EXPLAIN on a slow query", duration: 30, tag: "SQL", xp: 25 },
+      { id: "w5d5", title: "Linux: write a Bash script to automate a task", duration: 25, tag: "Linux", xp: 20 },
+    ],
+    // Week 6: Dynamic Programming
+    [
+      { id: "w6d1", title: "Solve 2 LeetCode DP problems (Climbing Stairs, House Robber)", duration: 55, tag: "DSA", xp: 40 },
+      { id: "w6d2", title: "Implement a HashMap from scratch in Python", duration: 45, tag: "DSA", xp: 35 },
+      { id: "w6d3", title: "Build a Python project: File organizer CLI tool", duration: 50, tag: "Python", xp: 40 },
+      { id: "w6d4", title: "Complete all SQLZoo exercises for the week", duration: 30, tag: "SQL", xp: 25 },
+      { id: "w6d5", title: "Git: set up GitHub Actions CI pipeline on a repo", duration: 20, tag: "Git", xp: 15 },
+    ],
   ],
   aiml_cloud: [
-    { id: "d6", title: "Read 1 ML paper abstract on ArXiv", duration: 20, tag: "Research", xp: 25 },
-    { id: "d7", title: "Train/tune a model in a Kaggle notebook", duration: 60, tag: "ML", xp: 50 },
-    { id: "d8", title: "Complete 1 AWS hands-on lab", duration: 40, tag: "Cloud", xp: 35 },
-    { id: "d9", title: "Review MLOps concept (Made With ML)", duration: 25, tag: "MLOps", xp: 20 },
-    { id: "d10", title: "Implement 1 ML concept from scratch in NumPy", duration: 45, tag: "ML", xp: 40 },
+    // Week 1: ML Fundamentals
+    [
+      { id: "m1d1", title: "Study Linear Regression — implement from scratch in NumPy", duration: 60, tag: "ML", xp: 50 },
+      { id: "m1d2", title: "Read fast.ai Lesson 1 + run notebook", duration: 45, tag: "ML", xp: 35 },
+      { id: "m1d3", title: "Build Titanic predictor on Kaggle (EDA + basic model)", duration: 60, tag: "ML", xp: 50 },
+      { id: "m1d4", title: "Complete 1 AWS free tier lab (EC2 basics)", duration: 40, tag: "Cloud", xp: 35 },
+      { id: "m1d5", title: "Read 1 ML paper abstract on ArXiv (summarize in 3 lines)", duration: 20, tag: "Research", xp: 20 },
+    ],
+    // Week 2: Classification Models
+    [
+      { id: "m2d1", title: "Study Logistic Regression + implement in Python", duration: 55, tag: "ML", xp: 45 },
+      { id: "m2d2", title: "Train Decision Tree + Random Forest on Titanic dataset", duration: 60, tag: "ML", xp: 50 },
+      { id: "m2d3", title: "Study model evaluation: ROC, AUC, F1, Confusion Matrix", duration: 40, tag: "ML", xp: 35 },
+      { id: "m2d4", title: "Complete 1 AWS lab: S3 + IAM basics", duration: 40, tag: "Cloud", xp: 35 },
+      { id: "m2d5", title: "Review MLOps concept: What is a model pipeline?", duration: 25, tag: "MLOps", xp: 20 },
+    ],
+    // Week 3: Deep Learning
+    [
+      { id: "m3d1", title: "Study Neural Networks: layers, activation functions, backprop", duration: 60, tag: "Deep Learning", xp: 50 },
+      { id: "m3d2", title: "Train a simple CNN on CIFAR-10 using PyTorch", duration: 70, tag: "Deep Learning", xp: 55 },
+      { id: "m3d3", title: "Watch Andrej Karpathy: Neural Networks Zero to Hero (1 video)", duration: 50, tag: "Deep Learning", xp: 40 },
+      { id: "m3d4", title: "Complete 1 AWS lab: Lambda + API Gateway serverless setup", duration: 45, tag: "Cloud", xp: 40 },
+      { id: "m3d5", title: "Study Docker basics: build and run a container", duration: 35, tag: "MLOps", xp: 30 },
+    ],
+    // Week 4: LLMs & Cloud
+    [
+      { id: "m4d1", title: "Study Transformers & Attention mechanism (illustrated guide)", duration: 50, tag: "Deep Learning", xp: 40 },
+      { id: "m4d2", title: "Fine-tune a HuggingFace model on a custom dataset", duration: 70, tag: "ML", xp: 55 },
+      { id: "m4d3", title: "Build a simple RAG pipeline with LangChain + local embeddings", duration: 60, tag: "ML", xp: 50 },
+      { id: "m4d4", title: "Complete AWS SageMaker lab: train a model on managed infra", duration: 50, tag: "Cloud", xp: 45 },
+      { id: "m4d5", title: "Containerize an ML model with Docker + test locally", duration: 40, tag: "MLOps", xp: 35 },
+    ],
   ],
   projects: [
-    { id: "d11", title: "Write 50+ lines of production code for active project", duration: 90, tag: "Build", xp: 60 },
-    { id: "d12", title: "Write a README section or docs update", duration: 20, tag: "Docs", xp: 15 },
-    { id: "d13", title: "Push to GitHub + write meaningful commit message", duration: 10, tag: "Git", xp: 10 },
-    { id: "d14", title: "Review a pull request or open-source issue", duration: 30, tag: "Collab", xp: 20 },
+    // Week 1: Planning & Setup
+    [
+      { id: "p1d1", title: "Write full project spec: features, tech stack, user flow", duration: 45, tag: "Build", xp: 35 },
+      { id: "p1d2", title: "Set up project repo with folder structure + README skeleton", duration: 30, tag: "Git", xp: 25 },
+      { id: "p1d3", title: "Write 50+ lines of backend code (models/routes)", duration: 90, tag: "Build", xp: 60 },
+      { id: "p1d4", title: "Push to GitHub with meaningful commits", duration: 10, tag: "Git", xp: 10 },
+      { id: "p1d5", title: "Review a similar open-source project for architecture ideas", duration: 30, tag: "Research", xp: 20 },
+    ],
+    // Week 2: Core Development
+    [
+      { id: "p2d1", title: "Write 50+ lines of frontend code (components/UI)", duration: 90, tag: "Build", xp: 60 },
+      { id: "p2d2", title: "Connect frontend to backend: test 2 API endpoints", duration: 45, tag: "Build", xp: 40 },
+      { id: "p2d3", title: "Write unit tests for 2 core functions", duration: 35, tag: "Build", xp: 30 },
+      { id: "p2d4", title: "Update README with setup instructions", duration: 20, tag: "Docs", xp: 15 },
+      { id: "p2d5", title: "Review and fix 3 bugs or UI issues", duration: 40, tag: "Build", xp: 30 },
+    ],
+    // Week 3: Integration & Polish
+    [
+      { id: "p3d1", title: "Implement auth or a major feature end-to-end", duration: 90, tag: "Build", xp: 60 },
+      { id: "p3d2", title: "Add error handling and loading states to all API calls", duration: 40, tag: "Build", xp: 35 },
+      { id: "p3d3", title: "Write project blog post draft (500 words)", duration: 45, tag: "Docs", xp: 35 },
+      { id: "p3d4", title: "Get feedback from 1 person — implement 1 suggestion", duration: 30, tag: "Build", xp: 25 },
+      { id: "p3d5", title: "Push all changes, tag v0.1 release on GitHub", duration: 10, tag: "Git", xp: 10 },
+    ],
+    // Week 4: Deployment
+    [
+      { id: "p4d1", title: "Dockerize the app and test container locally", duration: 50, tag: "Build", xp: 45 },
+      { id: "p4d2", title: "Deploy to production: Vercel/Railway/Render", duration: 45, tag: "Build", xp: 40 },
+      { id: "p4d3", title: "Test live app end-to-end, fix any production bugs", duration: 40, tag: "Build", xp: 35 },
+      { id: "p4d4", title: "Write full README with screenshots and live demo link", duration: 30, tag: "Docs", xp: 25 },
+      { id: "p4d5", title: "Share on LinkedIn with a post about what you built", duration: 20, tag: "Network", xp: 20 },
+    ],
   ],
   certifications: [
-    { id: "d15", title: "Complete 1 certification study module", duration: 60, tag: "Cert", xp: 45 },
-    { id: "d16", title: "Take 20-question practice quiz", duration: 20, tag: "Cert", xp: 20 },
-    { id: "d17", title: "Review flashcards (Anki or manual)", duration: 15, tag: "Review", xp: 10 },
+    // Week 1
+    [
+      { id: "c1d1", title: "Complete 2 certification study modules", duration: 60, tag: "Cert", xp: 45 },
+      { id: "c1d2", title: "Take 20-question practice quiz + review wrong answers", duration: 25, tag: "Cert", xp: 20 },
+      { id: "c1d3", title: "Make Anki flashcards for 10 new concepts", duration: 20, tag: "Review", xp: 15 },
+      { id: "c1d4", title: "Do 1 hands-on lab from the certification course", duration: 45, tag: "Cert", xp: 40 },
+      { id: "c1d5", title: "Review previous week flashcards (30 cards)", duration: 15, tag: "Review", xp: 10 },
+    ],
+    // Week 2
+    [
+      { id: "c2d1", title: "Complete 2 certification study modules", duration: 60, tag: "Cert", xp: 45 },
+      { id: "c2d2", title: "Take a full 65-question practice exam", duration: 80, tag: "Cert", xp: 60 },
+      { id: "c2d3", title: "Review all wrong answers from practice exam in detail", duration: 40, tag: "Review", xp: 30 },
+      { id: "c2d4", title: "Do 1 hands-on lab — focus on weakest topic", duration: 50, tag: "Cert", xp: 40 },
+      { id: "c2d5", title: "Review flashcards + add 10 new ones", duration: 20, tag: "Review", xp: 15 },
+    ],
   ],
   job_prep: [
-    { id: "d18", title: "Solve 1 system design problem (write it up)", duration: 45, tag: "Interview", xp: 35 },
-    { id: "d19", title: "Apply to 3–5 targeted job postings", duration: 30, tag: "Apply", xp: 25 },
-    { id: "d20", title: "Do 1 mock behavioral interview question (record)", duration: 20, tag: "Interview", xp: 20 },
-    { id: "d21", title: "Send 2 LinkedIn connection requests (personalized)", duration: 15, tag: "Network", xp: 15 },
+    // Week 1: Resume & Applications
+    [
+      { id: "j1d1", title: "Solve 1 system design problem: Design a URL shortener", duration: 45, tag: "Interview", xp: 35 },
+      { id: "j1d2", title: "Apply to 5 targeted job postings with tailored cover letter", duration: 40, tag: "Apply", xp: 30 },
+      { id: "j1d3", title: "Record 1 mock behavioral answer: Tell me about yourself", duration: 20, tag: "Interview", xp: 20 },
+      { id: "j1d4", title: "Send 3 LinkedIn connection requests to engineers at target companies", duration: 15, tag: "Network", xp: 15 },
+      { id: "j1d5", title: "Research salary ranges for 5 target companies on levels.fyi", duration: 20, tag: "Interview", xp: 15 },
+    ],
+    // Week 2: Interviews
+    [
+      { id: "j2d1", title: "Solve 1 system design: Design Twitter feed", duration: 50, tag: "Interview", xp: 40 },
+      { id: "j2d2", title: "Apply to 5 more job postings", duration: 35, tag: "Apply", xp: 25 },
+      { id: "j2d3", title: "Record mock answer: Describe a challenge you overcame", duration: 20, tag: "Interview", xp: 20 },
+      { id: "j2d4", title: "Do a full mock interview with a friend or using Pramp", duration: 60, tag: "Interview", xp: 50 },
+      { id: "j2d5", title: "Follow up on 3 previous applications via LinkedIn", duration: 15, tag: "Network", xp: 15 },
+    ],
   ],
 };
+
+// Get current week number since app start (stored in localStorage)
+function getCurrentWeekTasks(phase) {
+  const startKey = "cos_start_date";
+  let startDate = localStorage.getItem(startKey);
+  if (!startDate) {
+    startDate = new Date().toISOString().split("T")[0];
+    localStorage.setItem(startKey, startDate);
+  }
+  const start = new Date(startDate);
+  const now = new Date();
+  const diffDays = Math.floor((now - start) / (1000 * 60 * 60 * 24));
+  const weekIndex = Math.floor(diffDays / 7);
+  const weeks = WEEKLY_TASKS[phase] || WEEKLY_TASKS.foundation;
+  const currentWeek = weeks[weekIndex % weeks.length];
+  return { tasks: currentWeek, weekNum: weekIndex + 1, topic: getWeekTopic(phase, weekIndex) };
+}
+
+function getWeekTopic(phase, weekIndex) {
+  const topics = {
+    foundation: ["Arrays & Python Basics", "Strings & OOP", "Linked Lists & Hashing", "Trees & Advanced Python", "Graphs & Algorithms", "Dynamic Programming"],
+    aiml_cloud: ["ML Fundamentals", "Classification Models", "Deep Learning", "LLMs & Cloud"],
+    projects: ["Planning & Setup", "Core Development", "Integration & Polish", "Deployment"],
+    certifications: ["Study & Labs", "Practice Exams"],
+    job_prep: ["Resume & Applications", "Mock Interviews"],
+  };
+  const t = topics[phase] || topics.foundation;
+  return t[weekIndex % t.length];
+}
 
 const COACH_MESSAGES = [
   { trigger: "missed_1", message: "One missed day is noise. What matters is today. Pick one task and start — momentum > perfection." },
@@ -237,9 +390,9 @@ export default function CareerOS() {
   const [completedTasks, setCompletedTasks] = useLocalStorage("cos_tasks", {});
   const [phaseProgress, setPhaseProgress] = useLocalStorage("cos_phase", { foundation: 8, aiml_cloud: 0, projects: 0, certifications: 0, job_prep: 0 });
   const [skillLevels, setSkillLevels] = useLocalStorage("cos_skills", { Python: 15, DSA: 10, SQL: 5, "Linux/Git": 20, "ML Theory": 0, "Deep Learning": 0, "AWS/Cloud": 5, MLOps: 0, "System Design": 0, "LLM/Agents": 0 });
-  const [streak, setStreak] = useLocalStorage("cos_streak", { current: 3, longest: 3, lastActive: today(), totalDays: 3 });
+  const [streak, setStreak] = useLocalStorage("cos_streak", { current: 0, longest: 0, lastActive: "", totalDays: 0 });
   const [activePhase, setActivePhase] = useLocalStorage("cos_active_phase", "foundation");
-  const [xp, setXp] = useLocalStorage("cos_xp", 240);
+  const [xp, setXp] = useLocalStorage("cos_xp", 0);
   const [notes, setNotes] = useLocalStorage("cos_notes", "");
   const [coachMsg, setCoachMsg] = useState(COACH_MESSAGES.find(m => m.trigger === "default").message);
   const [expandedPhase, setExpandedPhase] = useState(null);
@@ -247,8 +400,29 @@ export default function CareerOS() {
   const [notification, setNotification] = useState(null);
 
   const todayKey = today();
-  const todayTasks = DAILY_TASKS_BY_PHASE[activePhase] || DAILY_TASKS_BY_PHASE.foundation;
+  const { tasks: todayTasks, weekNum, topic: weekTopic } = getCurrentWeekTasks(activePhase);
   const todayCompleted = completedTasks[todayKey] || [];
+
+  // ── FIXED STREAK LOGIC ──
+  useEffect(() => {
+    const todayStr = today();
+    const completedToday = (completedTasks[todayStr] || []).length;
+    if (completedToday === 0) return;
+
+    setStreak(prev => {
+      if (prev.lastActive === todayStr) return prev; // already counted today
+      const yesterday = new Date();
+      yesterday.setDate(yesterday.getDate() - 1);
+      const yesterdayStr = yesterday.toISOString().split("T")[0];
+      const newCurrent = prev.lastActive === yesterdayStr ? (prev.current || 0) + 1 : 1;
+      return {
+        current: newCurrent,
+        longest: Math.max(newCurrent, prev.longest || 0),
+        lastActive: todayStr,
+        totalDays: (prev.totalDays || 0) + 1,
+      };
+    });
+  }, [completedTasks]);
 
   const showNotif = (msg, type = "success") => {
     setNotification({ msg, type });
@@ -350,8 +524,8 @@ export default function CareerOS() {
 
       {/* Main Content */}
       <main style={styles.main}>
-        {activeTab === "dashboard" && <Dashboard phaseProgress={phaseProgress} setPhaseProgress={setPhaseProgress} todayTasks={todayTasks} todayCompleted={todayCompleted} toggleTask={toggleTask} streak={streak} xp={xp} level={level} activePhase={activePhase} setActivePhase={setActivePhase} phaseColors={phaseColors} phaseLabels={phaseLabels} coachMsg={coachMsg} totalProgress={totalProgress} />}
-        {activeTab === "daily" && <DailyView todayTasks={todayTasks} todayCompleted={todayCompleted} toggleTask={toggleTask} streak={streak} activePhase={activePhase} setActivePhase={setActivePhase} phaseLabels={phaseLabels} notes={notes} setNotes={setNotes} completedTasks={completedTasks} />}
+        {activeTab === "dashboard" && <Dashboard phaseProgress={phaseProgress} setPhaseProgress={setPhaseProgress} todayTasks={todayTasks} todayCompleted={todayCompleted} toggleTask={toggleTask} streak={streak} xp={xp} level={level} activePhase={activePhase} setActivePhase={setActivePhase} phaseColors={phaseColors} phaseLabels={phaseLabels} coachMsg={coachMsg} totalProgress={totalProgress} weekNum={weekNum} weekTopic={weekTopic} />}
+        {activeTab === "daily" && <DailyView todayTasks={todayTasks} todayCompleted={todayCompleted} toggleTask={toggleTask} streak={streak} activePhase={activePhase} setActivePhase={setActivePhase} phaseLabels={phaseLabels} notes={notes} setNotes={setNotes} completedTasks={completedTasks} weekNum={weekNum} weekTopic={weekTopic} />}
         {activeTab === "roadmap" && <RoadmapView expandedPhase={expandedPhase} setExpandedPhase={setExpandedPhase} phaseProgress={phaseProgress} setPhaseProgress={setPhaseProgress} activePhase={activePhase} setActivePhase={setActivePhase} />}
         {activeTab === "projects" && <ProjectsView expandedProject={expandedProject} setExpandedProject={setExpandedProject} />}
         {activeTab === "skills" && <SkillsView skillLevels={skillLevels} updateSkill={updateSkill} />}
@@ -364,7 +538,7 @@ export default function CareerOS() {
 // ============================================================
 // DASHBOARD
 // ============================================================
-function Dashboard({ phaseProgress, todayTasks, todayCompleted, toggleTask, streak, xp, level, activePhase, setActivePhase, phaseColors, phaseLabels, coachMsg, totalProgress }) {
+function Dashboard({ phaseProgress, todayTasks, todayCompleted, toggleTask, streak, xp, level, activePhase, setActivePhase, phaseColors, phaseLabels, coachMsg, totalProgress, weekNum, weekTopic }) {
   const completionPct = Math.round((todayCompleted.length / todayTasks.length) * 100);
   const phases = Object.keys(phaseProgress);
 
@@ -387,6 +561,7 @@ function Dashboard({ phaseProgress, todayTasks, todayCompleted, toggleTask, stre
         <div style={styles.todayBannerLeft}>
           <div style={styles.todayBannerTitle}>Today's Mission</div>
           <div style={styles.todayBannerSub}>{todayCompleted.length}/{todayTasks.length} tasks · {todayTasks.reduce((a, t) => a + t.duration, 0)} min total</div>
+          <div style={{fontSize:11,color:"#6EE7B7",marginBottom:8}}>Week {weekNum} · {weekTopic}</div>
           <div style={styles.todayProgressBar}>
             <div style={{ ...styles.todayProgressFill, width: `${completionPct}%` }} />
           </div>
@@ -472,7 +647,7 @@ function PhaseProgressCard({ phase, label, progress, color, active, onClick, pha
 // ============================================================
 // DAILY VIEW
 // ============================================================
-function DailyView({ todayTasks, todayCompleted, toggleTask, streak, activePhase, setActivePhase, phaseLabels, notes, setNotes, completedTasks }) {
+function DailyView({ todayTasks, todayCompleted, toggleTask, streak, activePhase, setActivePhase, phaseLabels, notes, setNotes, completedTasks, weekNum, weekTopic }) {
   const phases = Object.keys(phaseLabels);
   const last7 = Array.from({ length: 7 }, (_, i) => {
     const d = new Date(); d.setDate(d.getDate() - (6 - i));
@@ -490,7 +665,7 @@ function DailyView({ todayTasks, todayCompleted, toggleTask, streak, activePhase
       <div style={styles.pageHeader}>
         <div>
           <h1 style={styles.pageTitle}>Daily System</h1>
-          <p style={styles.pageSubtitle}>Your structured daily execution engine</p>
+          <p style={styles.pageSubtitle}>Your structured daily execution engine · <span style={{color:"#6EE7B7"}}>Week {weekNum}: {weekTopic}</span></p>
         </div>
       </div>
 
@@ -818,6 +993,7 @@ function CoachView({ streak, phaseProgress, todayCompleted, todayTasks, activePh
     if (completionToday < 20) return COACH_MESSAGES.find(m => m.trigger === "low_progress").message;
     return COACH_MESSAGES.find(m => m.trigger === "default").message;
   };
+
   const sendMessage = async () => {
     if (!input.trim()) return;
     const userMsg = input.trim();
@@ -839,11 +1015,9 @@ Roadmap phases: Foundation (Python, DSA, SQL) → AI/ML + Cloud → Projects →
 Be direct, specific, and motivating but not cringe. Give concrete next actions. Think like a senior engineer who went from $60K to $400K. Keep responses under 150 words unless the question demands more depth.`;
 
     try {
-      const res = await fetch("https://career-os-backend-production-1a36.up.railway.app/chat", {
+      const res = await fetch("https://api.anthropic.com/v1/messages", {
         method: "POST",
-        headers: { 
-  "Content-Type": "application/json",
-},
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           model: "claude-sonnet-4-20250514",
           max_tokens: 400,
@@ -855,7 +1029,7 @@ Be direct, specific, and motivating but not cringe. Give concrete next actions. 
         })
       });
       const data = await res.json();
-      const reply = data.choices?.[0]?.message?.content || "Connection issue. Check your API key.";
+      const reply = data.content?.[0]?.text || "Connection issue. Check your API key.";
       setMessages(prev => [...prev, { role: "coach", text: reply }]);
     } catch {
       setMessages(prev => [...prev, { role: "coach", text: "API unavailable. Here's a direct insight: " + getCoachInsight() }]);
