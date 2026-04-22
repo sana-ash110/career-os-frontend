@@ -652,7 +652,7 @@ function DailyView({ todayTasks, todayCompleted, toggleTask, streak, activePhase
   const last7 = Array.from({ length: 7 }, (_, i) => {
     const d = new Date(); d.setDate(d.getDate() - (6 - i));
     const key = d.toISOString().split("T")[0];
-    const tasks = DAILY_TASKS_BY_PHASE[activePhase] || [];
+   const tasks = getCurrentWeekTasks(activePhase).tasks || [];
     const done = (completedTasks[key] || []).length;
     return { date: d, key, done, total: tasks.length, pct: tasks.length ? Math.round((done / tasks.length) * 100) : 0 };
   });
